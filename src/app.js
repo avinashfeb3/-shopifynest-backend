@@ -10,15 +10,31 @@ import brandRouter from "./routes/admin/brand.route.js";
 const app = express();
 
 // define cors options
-const allowedOrigins = (process.env.CLIENT_ORIGINS || "http://localhost:5173")
+const defaultOrigins = [
+	"http://localhost:5173",
+	"https://shopifynest.vercel.app",
+];
+
+const allowedOrigins = (process.env.CLIENT_ORIGINS || "")
 	.split(",")
 	.map((origin) => origin.trim())
 	.filter(Boolean);
 
+const allowedOriginPatterns = (process.env.CLIENT_ORIGIN_PATTERNS || "")
+	.split(",")
+	.map((pattern) => pattern.trim())
+	.filter(Boolean)
+	.map((pattern) => new RegExp(pattern));
+
 app.use(
 	cors({
 		origin: (origin, callback) => {
-			if (!origin || allowedOrigins.includes(origin)) {
+			const isAllowed =
+				!origin ||
+				allowedOrigins.includes(origin) ||
+				defaultOrigins.includes(origin) ||
+				allowedOriginPatterns.some((pattern) => pattern.test(origin));
+			if (isAllowed) {
 				return callback(null, true);
 			}
 			return callback(new Error(`CORS blocked: ${origin}`));
