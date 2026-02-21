@@ -50,6 +50,24 @@ app.use(express.json({ limit: "20kb" }));
 app.use(express.urlencoded({ limit: "20kb" }));
 app.use(express.static("public"));
 
+// Root route
+app.get("/", (req, res) => {
+	res.status(200).json({
+		success: true,
+		message: "ShopifyNest API is running",
+		version: "1.0.0",
+		endpoints: {
+			auth: "/api/v1/auth",
+			admin: {
+				auth: "/api/v1/admin/auth",
+				categories: "/api/v1/admin/categories",
+				subCategories: "/api/v1/admin/sub-categories",
+				brands: "/api/v1/admin/brands"
+			}
+		}
+	});
+});
+
 // user authentication routes
 app.use("/api/v1/auth", userAuthRouter);
 
