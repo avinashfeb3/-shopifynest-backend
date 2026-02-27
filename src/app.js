@@ -5,6 +5,7 @@ import adminAuthRouter from "./routes/admin/admin.auth.route.js";
 import categoryRouter from "./routes/admin/category.route.js";
 import subcategoryRouter from "./routes/admin/subcategory.route.js";
 import brandRouter from "./routes/admin/brand.route.js";
+import productRouter from "./routes/admin/products.route.js";
 
 // initialize express app
 const app = express();
@@ -64,5 +65,8 @@ app.use("/api/v1/admin/sub-categories", subcategoryRouter);
 
 // Admin Brand routes
 app.use("/api/v1/admin/brands", brandRouter);
+
+// Admin Product routes
+app.use("/api/v1/admin/products", productRouter);
 
 export default app;
