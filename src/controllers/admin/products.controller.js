@@ -1,10 +1,10 @@
 import { deleteImageFromCloudinary, uploadImageToCloudinary } from "../../helpers/cloudinary.js";
 import products from "../../models/products.model.js";
 
-// Get Prdoucts
+// Get Products
 const getProducts = async (req, res) => {
   try {
-    const allProducts = await products.find();
+    const allProducts = await products.find().populate('category');
     return res.status(200).json({
       success: true,
       message: "Products fetched successfully.",
